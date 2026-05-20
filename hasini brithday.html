@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Happy Birthday Hasini</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&family=Great+Vibes&display=swap" rel="stylesheet">
+
+<style>
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+body{
+    overflow:hidden;
+    height:100vh;
+    font-family:'Poppins',sans-serif;
+    background:linear-gradient(135deg,#1a0f0a,#2b1400,#ff6b00);
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    color:white;
+}
+
+/* Animated Background */
+
+.bg-circle{
+    position:absolute;
+    border-radius:50%;
+    background:rgba(255,140,0,0.15);
+    animation:float 10s infinite ease-in-out;
+}
+
+.bg-circle:nth-child(1){
+    width:300px;
+    height:300px;
+    top:-100px;
+    left:-100px;
+}
+
+.bg-circle:nth-child(2){
+    width:200px;
+    height:200px;
+    bottom:-50px;
+    right:-50px;
+    animation-duration:14s;
+}
+
+.bg-circle:nth-child(3){
+    width:150px;
+    height:150px;
+    top:70%;
+    left:10%;
+    animation-duration:8s;
+}
+
+@keyframes float{
+    0%{
+        transform:translateY(0px);
+    }
+    50%{
+        transform:translateY(-30px);
+    }
+    100%{
+        transform:translateY(0px);
+    }
+}
+
+/* Floating Sparkles */
+
+.spark{
+    position:absolute;
+    width:5px;
+    height:5px;
+    background:#ffd699;
+    border-radius:50%;
+    animation:twinkle 2s infinite alternate;
+}
+
+@keyframes twinkle{
+    from{
+        opacity:0.2;
+        transform:scale(0.5);
+    }
+    to{
+        opacity:1;
+        transform:scale(1.8);
+    }
+}
+
+/* Main Container */
+
+.container{
+    width:90%;
+    max-width:850px;
+    padding:45px;
+    border-radius:35px;
+    background:rgba(255,255,255,0.08);
+    backdrop-filter:blur(12px);
+    text-align:center;
+    position:relative;
+    z-index:2;
+    box-shadow:0 0 40px rgba(255,140,0,0.4);
+    animation:fadeIn 1.5s ease;
+}
+
+@keyframes fadeIn{
+    from{
+        opacity:0;
+        transform:scale(0.7);
+    }
+    to{
+        opacity:1;
+        transform:scale(1);
+    }
+}
+
+/* Title */
+
+.title{
+    font-size:4rem;
+    font-weight:700;
+    text-transform:uppercase;
+    animation:glow 2s infinite alternate;
+}
+
+.name{
+    font-size:6.5rem;
+    font-family:'Great Vibes',cursive;
+    color:#ffd699;
+    margin-top:10px;
+    animation:floatName 3s ease-in-out infinite;
+}
+
+@keyframes glow{
+    from{
+        text-shadow:0 0 10px #ffae42;
+    }
+    to{
+        text-shadow:0 0 35px #ff6b00;
+    }
+}
+
+@keyframes floatName{
+    0%{
+        transform:translateY(0px);
+    }
+    50%{
+        transform:translateY(-15px);
+    }
+    100%{
+        transform:translateY(0px);
+    }
+}
+
+/* Quiz */
+
+.quiz-box{
+    margin-top:35px;
+}
+
+.question{
+    font-size:1.7rem;
+    margin-bottom:25px;
+    color:#fff5e6;
+    animation:slideUp 1s ease;
+}
+
+@keyframes slideUp{
+    from{
+        opacity:0;
+        transform:translateY(20px);
+    }
+    to{
+        opacity:1;
+        transform:translateY(0);
+    }
+}
+
+.options button{
+    display:block;
+    width:100%;
+    margin:15px 0;
+    padding:16px;
+    border:none;
+    border-radius:18px;
+    background:rgba(255,255,255,0.1);
+    color:white;
+    font-size:1rem;
+    cursor:pointer;
+    transition:0.4s;
+}
+
+.options button:hover{
+    transform:scale(1.04);
+    background:linear-gradient(45deg,#ff8c00,#ff4500);
+    box-shadow:0 0 20px rgba(255,140,0,0.5);
+}
+
+/* Result */
+
+.result{
+    display:none;
+    margin-top:30px;
+    font-size:2.2rem;
+    color:#ffd699;
+    animation:pop 1s ease;
+}
+
+@keyframes pop{
+    from{
+        transform:scale(0);
+    }
+    to{
+        transform:scale(1);
+    }
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="bg-circle"></div>
+<div class="bg-circle"></div>
+<div class="bg-circle"></div>
+
+<div class="container">
+
+    <div class="title">Happy Birthday</div>
+
+    <div class="name">Hasini</div>
+
+    <div class="quiz-box">
+
+        <div class="question" id="question">
+            Which day is the happiest day?
+        </div>
+
+        <div class="options" id="options"></div>
+
+        <div class="result" id="result">
+            🎉 Birthday Quiz Completed 🎂
+        </div>
+
+    </div>
+
+</div>
+
+<script>
+
+/* Sparkles */
+
+for(let i=0;i<80;i++){
+
+    let spark=document.createElement("div");
+
+    spark.classList.add("spark");
+
+    spark.style.left=Math.random()*100+"vw";
+    spark.style.top=Math.random()*100+"vh";
+
+    spark.style.animationDuration=(Math.random()*2+1)+"s";
+
+    spark.style.width=spark.style.height=
+    (Math.random()*4+2)+"px";
+
+    document.body.appendChild(spark);
+}
+
+/* Quiz Questions */
+
+const questions = [
+
+{
+    question:"Which birthday is the most special?",
+    answers:[
+        {text:"Hasini's Birthday",correct:true},
+        {text:"Monday",correct:false},
+        {text:"Exam Day",correct:false},
+        {text:"Random Day",correct:false}
+    ]
+},
+
+{
+    question:"Who deserves the best celebration?",
+    answers:[
+        {text:"Hasini",correct:true},
+        {text:"Nobody",correct:false},
+        {text:"Robot",correct:false},
+        {text:"Alien",correct:false}
+    ]
+},
+
+{
+    question:"Sai Krishna's favourite colour?",
+    answers:[
+        {text:"Blue",correct:false},
+        {text:"Green",correct:false},
+        {text:"Red",correct:true},
+        {text:"Black",correct:false}
+    ]
+}
+
+];
+
+let currentQuestion = 0;
+
+function loadQuestion(){
+
+    let q = questions[currentQuestion];
+
+    document.getElementById("question").innerHTML = q.question;
+
+    let optionsHTML = "";
+
+    q.answers.forEach(answer=>{
+
+        optionsHTML += `
+        <button onclick="selectAnswer(${answer.correct})">
+            ${answer.text}
+        </button>
+        `;
+    });
+
+    document.getElementById("options").innerHTML = optionsHTML;
+}
+
+function selectAnswer(correct){
+
+    if(correct){
+
+        currentQuestion++;
+
+        if(currentQuestion >= questions.length){
+
+            document.getElementById("question").style.display="none";
+            document.getElementById("options").style.display="none";
+            document.getElementById("result").style.display="block";
+
+            confetti();
+
+            return;
+        }
+
+        loadQuestion();
+
+    }else{
+        alert("Wrong Answer 😅");
+    }
+}
+
+/* Confetti Animation */
+
+function confetti(){
+
+    for(let i=0;i<150;i++){
+
+        let conf=document.createElement("div");
+
+        conf.style.position="absolute";
+        conf.style.width="10px";
+        conf.style.height="10px";
+
+        conf.style.background=
+        `hsl(${Math.random()*60+10},100%,60%)`;
+
+        conf.style.left=Math.random()*100+"vw";
+
+        conf.style.top="-20px";
+
+        conf.style.borderRadius="50%";
+
+        conf.style.animation=
+        `fall ${Math.random()*3+2}s linear forwards`;
+
+        document.body.appendChild(conf);
+    }
+}
+
+const style=document.createElement("style");
+
+style.innerHTML=`
+@keyframes fall{
+    to{
+        transform:translateY(110vh) rotate(720deg);
+        opacity:0;
+    }
+}
+`;
+
+document.head.appendChild(style);
+
+loadQuestion();
+
+</script>
+
+</body>
+</html>
